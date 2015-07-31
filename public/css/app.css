@@ -6819,5 +6819,8 @@ blockquote[class*="_calc"] .total {
   display: block;
   margin-left: 10px;
 }
+.loader {
+  display: none;
+}
 
 /*# sourceMappingURL=app.css.map */

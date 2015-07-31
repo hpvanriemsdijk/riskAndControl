@@ -15,15 +15,24 @@
 		        loadurl = $this.attr('href'),
 		        targ = $this.attr('data-target');
 
+			$this.tab('show');
+
+		    $(targ).fadeOut( "slow", function() {
+				$('.loader').show();
+			});		    
+
 		    $.get(loadurl, function(data) {
-		        $(targ).html(data);
+		    	$(targ).html(data);
 
-		        $('#list').isotope({
-					itemSelector: '.list-item'
-		    	});
+				$('.loader').fadeOut( "fast", function() {
+					$(targ).fadeIn( "slow" );
+
+					$('#list').isotope({
+						itemSelector: '.list-item'
+			    	});
+				});	
 		    });
-
-		    $this.tab('show');
+		    
 		    return false;
 		});
 
@@ -107,6 +116,13 @@
 	<!-- Tab panes -->
 	<div class="tab-content">
 		<div class="tab-pane active" id="tab-content">...</div>
+	</div>
+
+	<!-- messages -->
+	<div class="loader">
+		<div class="alert alert-info" role="alert">
+			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
+		</div>
 	</div>
 </div>
 @endif
