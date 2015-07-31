@@ -36,16 +36,15 @@
 			var $this = $('a[data-toggle="tabajax"]:first'),
 				loadurl = $this.attr('href'),
 		   		targ = $this.attr('data-target');
+		   		$this.parent().addClass('active');
 		}
 
 		$.get(loadurl, function(data) {
 		    $(targ).html(data);
 		});
 
-		$this.tab('show');
-
 		//Fix issue with graphs
-		morris.redraw();
+		//morris.redraw();
 	});
 </script>
 @endsection

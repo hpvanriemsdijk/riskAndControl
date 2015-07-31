@@ -101,7 +101,7 @@ class ControlframeworksController extends Controller {
 
 		//Child models, used for tabs
 		$childModels = array(
-			array("label" => "Controlobjective", "model" => "controlobjectives")
+			array("label" => "Controlobjectives", "model" => "controlobjectives", "active" => true)
 		);
 
 		//Menu actions
