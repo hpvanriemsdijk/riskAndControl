@@ -27,15 +27,17 @@
 </div>
 
 <script>
-  $(function () {
-		objectives_status_donut = Morris.Donut({
-		  element: 'objectives_status',
-		  data: [
-		    {label: "Objectives not met", value: {{ $data->objectives_not_met }}},
-		    {label: "Objectives partly met", value: {{ $data->objectives_partly_met }}},
-		    {label: "Objectives fully met", value: {{ $data->objectives_met }}}
-		  ],
-	      colors: ['#d9534f','#f0ad4e','#5cb85c'],
-		});		
+	$(document).ready(function() {
+		$(function () {
+			objectives_status_donut = Morris.Donut({
+			  element: 'objectives_status',
+			  data: [
+			    {label: "Objectives not met", value: {{ $data->objectives_not_met }}},
+			    {label: "Objectives partly met", value: {{ $data->objectives_partly_met }}},
+			    {label: "Objectives fully met", value: {{ $data->objectives_met }}}
+			  ],
+		      colors: ['#d9534f','#f0ad4e','#5cb85c'],
+			});	
+		})
 	})
 </script>

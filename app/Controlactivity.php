@@ -16,6 +16,9 @@ class Controlactivity extends Model {
 	 */
 	protected $fillable = ['name', 
 		'description', 
+        'active',
+        'key_control',
+        'owner_id',
 		'perform_frequency', 
 		'test_frequency', 
 		'justification', 
@@ -30,6 +33,26 @@ class Controlactivity extends Model {
      * append additional fields to the model
      */
     protected $appends = ['effectivity', 'last_test_conclusion', 'last_tested', 'tests_expired', 'warnings'];
+
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|max:255|unique:controlactivity,deleted_at',
+            'description' => 'required|string|max:10000',
+            'active' => 'boolean',
+            'key_control' => 'boolean',
+            'owner_id' => 'required|integer',
+            'perform_frequency' => 'required|integer|between:0,7',
+            'test_frequency' => 'required|integer|between:0,7',
+            'justification' => 'required|string|max:10000',
+            'intref' => 'required|max:50|unique:controlactivity,deleted_at',
+            'extref' => 'required|max:50|unique:controlactivity,deleted_at',
+            'control_type' => 'required|integer|between:0,2',
+            'control_execution' => 'required|integer|between:0,1',
+            'control_activitiescol' => 'required|integer|between:0,1',
+            'implementation_status' => 'required|integer|between:0,1',
+        ];
 
 	/*
 	 * define relations

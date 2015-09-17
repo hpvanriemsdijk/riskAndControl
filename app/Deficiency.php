@@ -18,6 +18,12 @@ class Deficiency extends Model {
      */
     protected $appends = ['followup']; 
 
+    public static $validationRules = [
+            'name' => 'required|string|max:255,deleted_at',
+            'description' => 'required|string|max:10000',
+            'rootcause' => 'integer|string'
+        ];
+
 	/*
 	 * define relations
 	 */

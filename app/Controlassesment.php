@@ -20,6 +20,16 @@ class Controlassesment extends Model {
      */
     protected $appends = array('warnings');
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'start' => 'required|date',
+            'finish' => 'date|after:start',
+            'finding' => 'required|string|max:10000',
+            'conclusion' => 'required|integer|between:0,3'
+        ];
+
 	/*
 	 * define relations
 	 */

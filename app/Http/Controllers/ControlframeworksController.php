@@ -106,7 +106,7 @@ class ControlframeworksController extends Controller {
 
 		//Menu actions
 		$actions = array(
-			array('label' => 'Edit', 'route' => 'controlframeworks/update'),
+			array('label' => 'Edit', 'route' => 'controlframeworks/'.$id.'/edit'),
 			array('label' => 'Delete', 'route' => 'controlframeworks/'.$id.'/destroy', 'target' => 'new' ),
 		);
 
@@ -119,9 +119,31 @@ class ControlframeworksController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Controlframework::find($id);
+
+		return view('generic.create', [
+			'data' => $data,
+        	'roles' => Role::where('active', '=', 1)
+				->orderBy('name', 'asc')
+				->lists('name', 'id')
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$controlframework = Controlframework::findOrFail($id);
+		$this->validate($request, Controlframework::$validationRules);
+		$input = $request->all();
+    	$controlframework->fill($input)->save();
+		//return view('controlframeworks.listPanel', ['item' => $controlframework]);
 	}
 
 	/**

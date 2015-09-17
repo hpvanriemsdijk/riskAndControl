@@ -27,6 +27,17 @@ class Controlobjective extends Model {
                 'warnings', 
                 'eec'];
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255|unique:assets,deleted_at',
+            'description' => 'required|string|max:10000',
+            'active' => 'boolean',
+            'intref' => 'required|string|max:50',
+            'extref' => 'required|string|max:50'
+        ];
+
 	/*
 	 * define relations
 	 */

@@ -18,6 +18,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $fillable = ['name', 'email', 'password'];
 
 	/**
+     * Validationrules
+     */
+    public static $validationRules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'password' => 'required|string|min:8|confirmed',
+    ];
+
+
+	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array

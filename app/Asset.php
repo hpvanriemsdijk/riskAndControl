@@ -11,7 +11,7 @@ class Asset extends Node {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description', 'active', 'continuity', 'integrity', 'availability', 'active'];
+	protected $fillable = ['name', 'description', 'active', 'owner_id', 'maintainer_id', 'continuity', 'integrity', 'availability', 'type'];
 
     /**
      * The attributes that are appended to the model.
@@ -19,6 +19,21 @@ class Asset extends Node {
      * @var array
      */
     protected $appends = array('warnings');
+
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:10000',
+            'active' => 'boolean',
+            'owner_id' => 'required|integer',
+            'maintainer_id' => 'required|integer',
+            'continuity' => 'required|integer|between:0,5',
+            'integrity' => 'required|integer|between:0,5',
+            'availability' => 'required|integer|between:0,5',
+            'type' => 'required|integer|between:0,5'
+        ];
 
 	/*
 	 * define relations

@@ -79,6 +79,11 @@
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->
 	</div> <!-- /.modal -->
+	<script>
+		$('#myModal').on('hidden.bs.modal', function () {
+		  location.reload();
+		})
+	</script>
 
 	@yield('javascript')
 </body>

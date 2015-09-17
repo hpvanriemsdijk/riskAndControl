@@ -16,6 +16,15 @@ class EnterpriseGoal extends Node {
 	 */
 	protected $fillable = ['name', 'description', 'dimention'];
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'description' => 'string|max:10000',
+            'dimention' => 'required|integer|between:0,3'
+        ];
+
 	/*
 	 * define relations
 	 */

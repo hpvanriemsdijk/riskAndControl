@@ -10,24 +10,31 @@
     	//Handle ajax post
         $('.submitBtn').on('click', function() {
             resetErrors();
-            var url = 'controlframeworks';
+            @if (isset($data))
+                var url = '/controlframeworks/' + {{$data->id}};
+                var method = 'PUT';
+            @else
+                var url = 'controlframeworks';
+                var method = 'POST';
+            @endif
+            
             $.each($('form input, form select, form textarea'), function(i, v) {
                 if (v.type !== 'submit') {
                     data[v.name] = v.value;
                 }
             }); //end each
             $.ajax({
-                type: 'POST',
+                type: method,
                 url: url,
                 data: $("form").serialize(),
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 success: function(resp) {
                     //Add msg
-                    var msg = '<div class="form-group"><div class="alert alert-success alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Great!</strong> You data have been saved. Add some more or close this box to go back!</div></div>';
+                    var msg = '<div class="form-group"><div class="alert alert-success alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Great!</strong> You data have been saved. @if (!isset($data))Add some more or close this box to go back!@endif</div></div>';
                     $('form').before(msg);
 
-                    //Clear form
-                    $('form').clearForm();
+                    //Clear form on add
+                    @if (!isset($data))$('form').clearForm();@endif
 
                     //Add to list
                     var $newItems = $('<div class="list-item">' + resp + '</div>');        

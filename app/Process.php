@@ -18,6 +18,15 @@ class Process extends Node {
      */
     protected $appends = ['in_control'];
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:10000',
+            'ref' => 'required|string|max:50'
+        ];
+
 	/*
 	 * define relations
 	 */

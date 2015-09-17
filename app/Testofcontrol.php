@@ -13,6 +13,14 @@ class Testofcontrol extends Model {
 	 */
 	protected $fillable = ['name', 'test'];
 
+	/**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'test' => 'required|string|max:10000'
+        ];
+
 	/*
 	 * define relations
 	 */

@@ -30,6 +30,8 @@
   @endif
 </div>  
 
+{{--
+This code will stop Morris from wokrking in item detail view 
 <script type="text/javascript">
   //Init dotdotdot (Shortner)
   $(document).ready(function() {
@@ -38,3 +40,4 @@
     });
   });
 </script>
+--}}

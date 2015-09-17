@@ -22,8 +22,8 @@ class Controlframework extends Model {
      * Validationrules
      */
     public static $validationRules = [
-            'name' => 'required|max:255|unique:controlframeworks',
-            'description' => 'required',
+            'name' => 'required|max:255|unique:controlframeworks,deleted_at',
+            'description' => 'required|string|max:255',
             'active' => 'boolean',
             'owner_id' => 'required|integer'
         ];

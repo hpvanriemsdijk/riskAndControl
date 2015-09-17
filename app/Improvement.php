@@ -13,6 +13,15 @@ class Improvement extends Model {
 	 */
 	protected $fillable = ['name', 'description', 'status'];
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:10000',
+            'status' => 'required|integer|between:0,2'
+        ];
+
 	/*
 	 * define relations
 	 */

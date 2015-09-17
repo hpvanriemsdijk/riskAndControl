@@ -18,6 +18,16 @@ class Threat extends Node {
      */
     protected $appends = ['risk', 'teec', 'residual_risk', 'net_teec', 'net_risk'];
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:10000',
+            'chance' => 'required|integer|between:0,5',
+            'impact' => 'required|integer|between:0,5'
+        ];
+
 	/*
 	 * define relations
 	 */

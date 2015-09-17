@@ -13,6 +13,15 @@ class Role extends Model {
 	 */
 	protected $fillable = ['name', 'description', 'active'];
 
+    /**
+     * Validationrules
+     */
+    public static $validationRules = [
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:10000',
+            'active' => 'boolean'
+        ];
+
 	/*
 	 * define relations
 	 */
