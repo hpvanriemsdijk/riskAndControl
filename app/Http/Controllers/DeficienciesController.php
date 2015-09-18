@@ -15,7 +15,13 @@ class DeficienciesController extends Controller {
 	public function index()
 	{
 		$data = Deficiency::all();
-		return view('generic.index', ['data' => $data]);
+			
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'deficiencies/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**

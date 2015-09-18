@@ -17,7 +17,16 @@ class ProcessesController extends Controller {
 	public function index()
 	{
 		$data = Process::all()->toHierarchy();
-		return view('generic.index', ['data' => $data]);
+				
+		//Filter settings
+		$filter = array();
+	
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'processes/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**

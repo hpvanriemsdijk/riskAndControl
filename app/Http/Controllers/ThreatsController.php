@@ -17,7 +17,16 @@ class ThreatsController extends Controller {
 	public function index()
 	{
 		$data = Threat::all();
-		return view('generic.index', ['data' => $data]);
+				
+		//Filter settings
+		$filter = array();
+	
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'threats/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**

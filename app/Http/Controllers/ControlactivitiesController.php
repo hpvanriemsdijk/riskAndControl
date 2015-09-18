@@ -14,7 +14,16 @@ class ControlactivitiesController extends Controller {
 	public function index()
 	{
 		$data = Controlactivity::all();
-		return view('generic.index', ['data' => $data]);
+
+		//Filter settings
+		$filter = array();
+	
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'controlactivities/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**

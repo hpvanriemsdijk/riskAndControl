@@ -14,7 +14,16 @@ class AssetsController extends Controller {
 	public function index()
 	{
 		$data = Asset::all()->toHierarchy();
-		return view('generic.index', ['data' => $data]);
+
+		//Filter settings
+		$filter = array();
+	
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'assets/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**
@@ -37,7 +46,9 @@ class AssetsController extends Controller {
 	{
 		$data = Asset::find($id)->processes;
 		return view('generic.list', ['data' => $data]);
-	}	/**
+	}	
+
+	/**
 	 * Display a listing of the child threats.
 	 *
 	 * @return Response
@@ -49,13 +60,29 @@ class AssetsController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+        		'threats' => Threat::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+        		'processes' => Process::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+			]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Asset::create(Request::all());
+		$this->validate($request, Asset::$validationRules);
+		$item = Asset::create($request->all());
+		return view('assets.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -84,9 +111,30 @@ class AssetsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Asset::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+	        	'threats' => Threat::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+	        	'processes' => Process::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id')
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$asset = Asset::findOrFail($id);
+		$this->validate($request, Asset::$validationRules);
+		$input = $request->all();
+    	$asset->fill($input)->save();
 	}
 
 	/**
@@ -97,7 +145,9 @@ class AssetsController extends Controller {
 	 */
 	public function destroy($id)
 	{
+		$data = Asset::find($id);
 		Asset::destroy($id);
+		return redirect('controlframeworks')->with('status', 'Controlframework "' . $data->name . '" succesfully deleted.');
 	}
 
 }

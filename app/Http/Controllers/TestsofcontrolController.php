@@ -17,7 +17,16 @@ class TestsofcontrolController extends Controller {
 	public function index()
 	{
 		$data = Testofcontrol::all();
-		return view('generic.index', ['data' => $data]);
+				
+		//Filter settings
+		$filter = array();
+	
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'testsofcontrol/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**

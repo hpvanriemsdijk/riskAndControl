@@ -15,7 +15,16 @@ class ImprovementsController extends Controller {
 	public function index()
 	{
 		$data = Improvement::all();
-		return view('generic.index', ['data' => $data]);
+		
+		//Filter settings
+		$filter = array();
+	
+		//Menu actions
+		$actions = array(
+			array('label' => 'add', 'route' => 'improvements/create', 'target' => '')
+		);
+
+		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
 	}
 
 	/**
