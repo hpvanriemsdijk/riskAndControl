@@ -52,13 +52,27 @@ class EnterpriseGoalsController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'controlDimentions' => EnterpriseGoal::$controlDimentions
+        	]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return EnterpriseGoal::create(Request::all());
+		$this->validate($request, EnterpriseGoal::$validationRules);
+		$item = EnterpriseGoal::create($request->all());
+		return view('enterpriseGoals.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -78,7 +92,13 @@ class EnterpriseGoalsController extends Controller {
 			array("label" => "Threats", "model" => "threats")
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'enterpriseGoals/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'enterpriseGoals/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

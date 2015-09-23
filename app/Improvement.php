@@ -14,6 +14,13 @@ class Improvement extends Model {
 	protected $fillable = ['name', 'description', 'status'];
 
     /**
+     * Add ables to identfiers.
+     *
+     * @var array
+     */
+    public static $improvementStatus = [0 => 'To do', 1 => 'In progress', 2 => 'Done'];
+
+    /**
      * Validationrules
      */
     public static $validationRules = [
@@ -43,7 +50,7 @@ class Improvement extends Model {
     {
         $status = $this->attributes['status'];
 
-        $statusus = ['To do', 'In progress', 'Done'];
+        $statusus = Improvement::$improvementStatus;
         $statusLabel = array(
             'identifier' => $status,
             'label' => $label = isset($statusus[$status]) ? $statusus[$status] : false,

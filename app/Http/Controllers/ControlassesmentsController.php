@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Controlassesment;
+use App\Controlactivity;
+use App\User;
 
 class ControlassesmentsController extends Controller {
 
@@ -54,13 +56,29 @@ class ControlassesmentsController extends Controller {
 	}	
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+    		'controlactivities' => Controlactivity::orderBy('name', 'asc')->lists('name', 'id'), 
+    		'users' => User::orderBy('name', 'asc')->lists('name', 'id'),
+    		'conclusions' => Controlassesment::$conclusionTypes
+		]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Controlassesment::create(Request::all());
+		$this->validate($request, Asset::$validationRules);
+		$item = Asset::create($request->all());
+		return view('assets.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -79,7 +97,13 @@ class ControlassesmentsController extends Controller {
 			array("label" => "Deficiencies", "model" => "deficiencies", "active" => true)
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'controlassesments/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'controlassesments/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

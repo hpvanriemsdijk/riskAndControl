@@ -20,6 +20,14 @@ class Asset extends Node {
      */
     protected $appends = array('warnings');
 
+
+    /**
+     * Add ables to identfiers.
+     *
+     * @var array
+     */
+    public static $assetTypes = ['People', 'Application', 'Technology', 'Facility', 'Data'];
+
     /**
      * Validationrules
      */
@@ -95,11 +103,10 @@ class Asset extends Node {
      * getAssetTypeLabel; Translate Asset type identifier to label.
      */
     public static function getAssetTypeLabel($typeId){
-        $types = ['People', 'Application', 'Technology', 'Facility', 'Data'];
         if($typeId >= 0 && $typeId < 5){
-            return $types[$typeId]; 
+            return Asset::$assetTypes[$typeId]; 
         }else{
-            return $types[4]; 
+            return Asset::$assetTypes[4]; 
         }        
     }
 }

@@ -17,6 +17,16 @@ class EnterpriseGoal extends Node {
 	protected $fillable = ['name', 'description', 'dimention'];
 
     /**
+     * Add ables to identfiers.
+     *
+     * @var array
+     */
+    public static $controlDimentions = [0  => 'Financial', 
+                        1  => 'Customer', 
+                        2  => 'Internal',
+                        3  => 'Learning and Growth'];
+
+    /**
      * Validationrules
      */
     public static $validationRules = [
@@ -39,7 +49,7 @@ class EnterpriseGoal extends Node {
      * getAssetTypeLabel; Translate Asset type identifier to label.
      */
     public static function getGoalTypeLabel($typeId){
-        $types = ['Financial', 'Customer', 'Internal', 'Learning and Growth'];
+        $types = EnterpriseGoal::$controlDimentions;
         if($typeId >= 0 && $typeId < 4){
             return $types[$typeId]; 
         }else{

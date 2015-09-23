@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Threat;
+use App\Process;
+use App\EnterpriseGoal;
+use App\Asset;
 
 class ThreatsController extends Controller {
 
@@ -96,13 +99,30 @@ class ThreatsController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+    	//@Todo: asset and enterpriseGoals can be subject of the threat as well
+        return view('generic.create', [
+        	'processes' => Process::orderBy('name', 'asc')->lists('name', 'id'), 
+        	'assets' => Asset::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+        	'enterpriseGoals' => EnterpriseGoal::orderBy('name', 'asc')->lists('name', 'id'), 
+        ]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Threat::create(Request::all());
+		$this->validate($request, Threat::$validationRules);
+		$item = Threat::create($request->all());
+		return view('threats.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -125,7 +145,13 @@ class ThreatsController extends Controller {
 			array("label" => "Processes", "model" => "processes")
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'threats/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'threats/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

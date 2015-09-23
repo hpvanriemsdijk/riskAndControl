@@ -30,6 +30,18 @@ class Controlassesment extends Model {
             'conclusion' => 'required|integer|between:0,3'
         ];
 
+    /**
+     * Add ables to identfiers.
+     *
+     * @var array
+     */
+    public static $conclusionTypes = [
+                    0 => 'Unknown', 
+                    1 => 'Not effective', 
+                    2 => 'Partly effective', 
+                    3 => 'Effective'];
+
+
 	/*
 	 * define relations
 	 */
@@ -86,10 +98,9 @@ class Controlassesment extends Model {
             $fixed = true;
         }
 
-        $conclusions = ['Unknown', 'Not effective', 'Partly effective', 'Effective'];
         $conclusionLabel = array(
             'identifier' => $conclusion,
-            'label' => $label = isset($conclusions[$conclusion]) ? $conclusions[$conclusion] : false,
+            'label' => $label = isset(Controlassesment::$conclusionTypes[$conclusion]) ? Controlassesment::$conclusionTypes[$conclusion] : false,
             'fixed' => $fixed
             );
 

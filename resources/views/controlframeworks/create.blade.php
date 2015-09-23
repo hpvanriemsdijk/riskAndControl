@@ -15,7 +15,7 @@
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="owner_id">Owner</label>
-			<select name="owner_id" class="form-control">
+			<select name="owner_id" id="owner_id" class="form-control">
 				@foreach($roles as $key => $role)
 				<option value='{{$key}}' @if(isset($data) && $data->owner_id == $key) selected @endif>{{$role}}</option>
 				@endforeach
@@ -37,6 +37,6 @@
     var data = {};
     $(document).ready(function() {
     	//Set select2
-    	$("#owner").select2();
+    	$("#owner_id").select2();
     });
 </script>

@@ -1,8 +1,9 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Request;
 use App\Controlactivity;
+use App\Role;
 
 class ControlactivitiesController extends Controller {
 
@@ -60,13 +61,31 @@ class ControlactivitiesController extends Controller {
 	}	
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+        		'performFrequencies' => Controlactivity::$performFrequencies,
+        		'controlTypes' => Controlactivity::$controlTypes,
+        		'controlExecution' => Controlactivity::$controlExecution,
+        		'implementationStatus' => Controlactivity::$implementationStatus
+			]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Controlactivity::create(Request::all());
+		$this->validate($request, Controlactivity::$validationRules);
+		$item = Controlactivity::create($request->all());
+		return view('controlactivities.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -86,7 +105,13 @@ class ControlactivitiesController extends Controller {
 			array("label" => "Control assesments", "model" => "controlassesments", "active" => true),
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'controlactivities/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'controlactivities/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

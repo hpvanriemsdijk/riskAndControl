@@ -4,6 +4,8 @@ use App\Http\Controllers\Controller;
 use Request;
 
 use App\Deficiency;
+use App\Controlassesments;
+use App\Role;
 
 class DeficienciesController extends Controller {
 
@@ -16,6 +18,9 @@ class DeficienciesController extends Controller {
 	{
 		$data = Deficiency::all();
 			
+		//Filter settings
+		$filter = array();
+	
 		//Menu actions
 		$actions = array(
 			array('label' => 'add', 'route' => 'deficiencies/create', 'target' => '')
@@ -47,13 +52,27 @@ class DeficienciesController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+			]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Deficiency::create(Request::all());
+		$this->validate($request, Deficiency::$validationRules);
+		$item = Deficiency::create($request->all());
+		return view('deficiencies.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -72,7 +91,13 @@ class DeficienciesController extends Controller {
 			array("label" => "Improvements", "model" => "improvements"),
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'deficiencies/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'deficiencies/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

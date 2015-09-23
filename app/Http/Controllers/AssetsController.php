@@ -1,8 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Request;
 use App\Asset;
+use App\Role;
+use App\Threat;
+use App\Process;
 
 class AssetsController extends Controller {
 
@@ -67,10 +70,11 @@ class AssetsController extends Controller {
     public function create()
     {
         return view('generic.create', [
-        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
-        		'threats' => Threat::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
-        		'processes' => Process::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
-			]);
+    		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+    		'threats' => Threat::orderBy('name', 'asc')->lists('name', 'id'), 
+    		'processes' => Process::orderBy('name', 'asc')->lists('name', 'id'), 
+    		'assetTypes' => asset::$assetTypes
+		]);
     }
 
 	/**
@@ -95,6 +99,7 @@ class AssetsController extends Controller {
 	{
 		$data = Asset::with(['owner', 'maintainer'])->find($id);
 		$data->ancestors = Asset::find($id)->getAncestorsAndSelf();
+		
 		//Child models, used for tabs
 		$childModels = array(
 			array("label" => "Child assets", "model" => "assets"),
@@ -102,7 +107,13 @@ class AssetsController extends Controller {
 			array("label" => "Threats", "model" => "threats")
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'assets/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'assets/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**
@@ -118,8 +129,9 @@ class AssetsController extends Controller {
 		return view('generic.create', [
 				'data' => $data,
 	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
-	        	'threats' => Threat::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
-	        	'processes' => Process::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id')
+	    		'threats' => Threat::orderBy('name', 'asc')->lists('name', 'id'), 
+	    		'processes' => Process::orderBy('name', 'asc')->lists('name', 'id'), 
+	    		'assetTypes' => asset::$assetTypes
 			]);
 	}
 

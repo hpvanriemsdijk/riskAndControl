@@ -41,13 +41,25 @@ class UsersController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', []);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return User::create(Request::all());
+		$this->validate($request, User::$validationRules);
+		$item = User::create($request->all());
+		return view('assets.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -65,7 +77,13 @@ class UsersController extends Controller {
 			array("label" => "Roles", "model" => "roles"),
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'users/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'users/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

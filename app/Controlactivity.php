@@ -35,6 +35,16 @@ class Controlactivity extends Model {
     protected $appends = ['effectivity', 'last_test_conclusion', 'last_tested', 'tests_expired', 'warnings'];
 
     /**
+     * Add ables to identfiers.
+     *
+     * @var array
+     */
+    public static $controlTypes = [0 => 'preventive', 1 => 'corrective', 2 => 'detective'];
+    public static $controlExecution = [0 => 'manual', 1 => 'automated'];
+    public static $implementationStatus = [0 => 'Not implemented', 1 => 'Implemented'];
+    public static $performFrequencies = [0 => 'Daily', 1 => 'weekly', 2 => 'bi-weekly', 3 => 'mothly', 4 => 'bi-mothly', 5 => 'quarterly', 6 => 'twice a year', 7 => 'yearly'];
+
+    /**
      * Validationrules
      */
     public static $validationRules = [
@@ -45,12 +55,12 @@ class Controlactivity extends Model {
             'owner_id' => 'required|integer',
             'perform_frequency' => 'required|integer|between:0,7',
             'test_frequency' => 'required|integer|between:0,7',
-            'justification' => 'required|string|max:10000',
-            'intref' => 'required|max:50|unique:controlactivity,deleted_at',
-            'extref' => 'required|max:50|unique:controlactivity,deleted_at',
+            'justification' => 'string|max:10000',
+            'intref' => 'max:50|unique:controlactivity,deleted_at',
+            'extref' => 'max:50|unique:controlactivity,deleted_at',
             'control_type' => 'required|integer|between:0,2',
             'control_execution' => 'required|integer|between:0,1',
-            'control_activitiescol' => 'required|integer|between:0,1',
+            'control_activitiescol' => 'integer|between:0,1',
             'implementation_status' => 'required|integer|between:0,1',
         ];
 

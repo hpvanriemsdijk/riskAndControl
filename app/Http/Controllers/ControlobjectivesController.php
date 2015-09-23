@@ -34,7 +34,7 @@ class ControlobjectivesController extends Controller {
 	
 		//Menu actions
 		$actions = array(
-			array('label' => 'add', 'route' => 'controlobjective/create', 'target' => '')
+			array('label' => 'add', 'route' => 'controlobjectives/create', 'target' => '')
 		);
 
 		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
@@ -74,13 +74,25 @@ class ControlobjectivesController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', []);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Controlobjective::create(Request::all());
+		$this->validate($request, Controlobjective::$validationRules);
+		$item = Controlobjective::create($request->all());
+		return view('controlobjectives.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -101,7 +113,13 @@ class ControlobjectivesController extends Controller {
 			array("label" => "Threats", "model" => "threats")
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'controlobjectives/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'controlobjectives/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

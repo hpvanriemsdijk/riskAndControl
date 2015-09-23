@@ -11,10 +11,10 @@
         $('.submitBtn').on('click', function() {
             resetErrors();
             @if (isset($data))
-                var url = '/controlframeworks/' + {{$data->id}};
+                var url = '/{{Request::segment(count(Request::segments())-1)}}/' + {{$data->id}};
                 var method = 'PUT';
             @else
-                var url = 'controlframeworks';
+                var url = '{{Request::segment(count(Request::segments())-1)}}';
                 var method = 'POST';
             @endif
             

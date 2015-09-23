@@ -70,9 +70,7 @@ class ControlframeworksController extends Controller {
     public function create()
     {
         return view('generic.create', [
-        	'roles' => Role::where('active', '=', 1)
-				->orderBy('name', 'asc')
-				->lists('name', 'id')
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id')
 			]);
     }
 
@@ -85,7 +83,6 @@ class ControlframeworksController extends Controller {
 	{
 		$this->validate($request, Controlframework::$validationRules);
 		$item = Controlframework::create($request->all());
-		//return $item;
 		return view('controlframeworks.listPanel', ['item' => $item]);
 	}
 

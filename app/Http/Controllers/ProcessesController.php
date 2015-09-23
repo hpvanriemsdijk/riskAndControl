@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Process;
+use App\Role;
 
 class ProcessesController extends Controller {
 
@@ -63,13 +64,27 @@ class ProcessesController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id')
+			]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Process::create(Request::all());
+		$this->validate($request, Process::$validationRules);
+		$item = Process::create($request->all());
+		return view('processes.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -91,7 +106,13 @@ class ProcessesController extends Controller {
 			array("label" => "Threats", "model" => "threats")
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'processes/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'processes/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

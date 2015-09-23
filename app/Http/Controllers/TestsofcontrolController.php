@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Testofcontrol;
+use App\Controlactivity;
 
 class TestsofcontrolController extends Controller {
 
@@ -30,13 +31,27 @@ class TestsofcontrolController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'controlactivities' => Controlactivity::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+        	]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Testofcontrol::create(Request::all());
+		$this->validate($request, Testofcontrol::$validationRules);
+		$item = Testofcontrol::create($request->all());
+		return view('testofcontrols.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -48,7 +63,14 @@ class TestsofcontrolController extends Controller {
 	public function show($id)
 	{
 		$data = Testofcontrol::with(['controlactivity'])->find($id);
-	    return view('generic.item', ['data' => $data]);
+
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'assets/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'assets/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'actions' => $actions]);
 	}
 
 	/**

@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Request;
 
 use App\Improvement;
+use App\Role;
 
 class ImprovementsController extends Controller {
 
@@ -39,13 +40,28 @@ class ImprovementsController extends Controller {
 	}
 
 	/**
+     * Show the form for creating a new controlframework.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('generic.create', [
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+        		'improvementStatus' => Improvement::$improvementStatus
+			]);
+    }
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return Improvement::create(Request::all());
+		$this->validate($request, Improvement::$validationRules);
+		$item = Improvement::create($request->all());
+		return view('improvements.listPanel', ['item' => $item]);
 	}
 
 	/**
@@ -64,7 +80,13 @@ class ImprovementsController extends Controller {
 			array("label" => "Deficiencies", "model" => "deficiencies")
 		);
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels]);
+		//Menu actions
+		$actions = array(
+			array('label' => 'Edit', 'route' => 'improvements/'.$id.'/edit'),
+			array('label' => 'Delete', 'route' => 'improvements/'.$id.'/destroy', 'target' => 'new' ),
+		);
+
+	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
 	}
 
 	/**

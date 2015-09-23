@@ -20,7 +20,8 @@ elixir(function(mix) {
     mix.styles([
         "app.css",
         "../bower/select2/select2.css", 
-        "../bower/select2-bootstrap-css/select2-bootstrap.min.css"
+        "../bower/select2-bootstrap-css/select2-bootstrap.min.css",
+        "../bower/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css",
     ]);
     mix.scripts([
 	    '../bower/jquery/dist/jquery.js',
@@ -30,6 +31,7 @@ elixir(function(mix) {
 	   	'../bower/raphael/raphael.js',
 	    '../bower/morris.js/morris.js',
 	    '../bower/select2/select2.js',
+        '../bower/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
 	], 'public/js/vendor.js');
 
 });
