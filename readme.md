@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/hpvanriemsdijk/riskAndControl.svg?branch=master)](https://travis-ci.org/hpvanriemsdijk/riskAndControl)
+[![Coverage Status](https://coveralls.io/repos/hpvanriemsdijk/riskAndControl/badge.svg?branch=master&service=github)](https://coveralls.io/github/hpvanriemsdijk/riskAndControl?branch=master)
+
 ## Risk and Control - Simplify your corporate governance 
 
 Risk and Control is an web application that was made to make the lives of compliance- and security officers as easy as possible. 
