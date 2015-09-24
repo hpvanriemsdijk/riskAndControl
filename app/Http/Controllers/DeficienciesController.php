@@ -94,7 +94,7 @@ class DeficienciesController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'deficiencies/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'deficiencies/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -106,9 +106,28 @@ class DeficienciesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Deficiency::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$deficiency = Deficiency::findOrFail($id);
+		$this->validate($request, Deficiency::$validationRules);
+		$input = $request->all();
+    	$deficiency->fill($input)->save();
 	}
 
 	/**

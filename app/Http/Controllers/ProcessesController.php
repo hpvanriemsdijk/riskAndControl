@@ -109,7 +109,7 @@ class ProcessesController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'processes/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'processes/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -121,9 +121,28 @@ class ProcessesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Process::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id')
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$process = Process::findOrFail($id);
+		$this->validate($request, Process::$validationRules);
+		$input = $request->all();
+    	$process->fill($input)->save();
 	}
 
 	/**

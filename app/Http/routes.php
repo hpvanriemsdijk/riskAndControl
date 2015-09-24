@@ -26,8 +26,6 @@ Route::get('assets/{id}/assets', 'AssetsController@indexChildren');
 Route::resource('assets.processes', 'AssetsController@indexProcesses');
 Route::resource('assets.threats', 'AssetsController@indexThreats');
 Route::resource('controlframeworks', 'ControlframeworksController');
-Route::resource('controlframeworks.create', 'ControlframeworksController');
-Route::get('controlframeworks/{id}/destroy', 'ControlframeworksController@destroy');
 Route::resource('controlframeworks.controlobjectives', 'ControlframeworksController@indexControlobjectives');
 Route::resource('controlobjectives', 'ControlobjectivesController');
 Route::resource('controlobjectives.controlframeworks', 'ControlobjectivesController@indexControlframeworks');

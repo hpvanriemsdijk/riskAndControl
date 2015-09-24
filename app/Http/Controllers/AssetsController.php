@@ -110,7 +110,7 @@ class AssetsController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'assets/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'assets/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -159,7 +159,6 @@ class AssetsController extends Controller {
 	{
 		$data = Asset::find($id);
 		Asset::destroy($id);
-		return redirect('controlframeworks')->with('status', 'Controlframework "' . $data->name . '" succesfully deleted.');
+		return 'Asset "' . $data->name . '" succesfully deleted.';
 	}
-
 }

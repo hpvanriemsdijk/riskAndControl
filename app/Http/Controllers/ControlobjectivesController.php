@@ -116,7 +116,7 @@ class ControlobjectivesController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'controlobjectives/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'controlobjectives/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -128,9 +128,27 @@ class ControlobjectivesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Controlobjective::find($id);
+
+		return view('generic.create', [
+				'data' => $data
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$controlobjective = Controlobjective::findOrFail($id);
+		$this->validate($request, Controlobjective::$validationRules);
+		$input = $request->all();
+    	$controlobjective->fill($input)->save();
 	}
 
 	/**

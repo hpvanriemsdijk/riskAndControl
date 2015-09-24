@@ -83,7 +83,7 @@ class ImprovementsController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'improvements/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'improvements/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -95,9 +95,29 @@ class ImprovementsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Improvement::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+        		'improvementStatus' => Improvement::$improvementStatus
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$improvement = Improvement::findOrFail($id);
+		$this->validate($request, Improvement::$validationRules);
+		$input = $request->all();
+    	$improvement->fill($input)->save();
 	}
 
 	/**

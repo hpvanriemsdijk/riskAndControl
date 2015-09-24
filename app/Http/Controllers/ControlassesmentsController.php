@@ -100,7 +100,7 @@ class ControlassesmentsController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'controlassesments/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'controlassesments/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -112,9 +112,30 @@ class ControlassesmentsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Controlassesment::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+	        	'controlactivities' => Controlactivity::orderBy('name', 'asc')->lists('name', 'id'), 
+    			'users' => User::orderBy('name', 'asc')->lists('name', 'id'),
+    			'conclusions' => Controlassesment::$conclusionTypes
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$controlassesment = Controlassesment::findOrFail($id);
+		$this->validate($request, Controlassesment::$validationRules);
+		$input = $request->all();
+    	$controlassesment->fill($input)->save();
 	}
 
 	/**

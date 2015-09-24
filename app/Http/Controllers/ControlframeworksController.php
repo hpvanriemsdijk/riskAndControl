@@ -104,7 +104,7 @@ class ControlframeworksController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'controlframeworks/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'controlframeworks/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);

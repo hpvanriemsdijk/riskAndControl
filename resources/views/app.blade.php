@@ -58,8 +58,10 @@
 									@foreach($actions as $action)
 										@if(isset($action['target']) && $action['target'] == 'new')
 										<li><a href="{{ url($action['route']) }}">{{ $action['label'] }}</a></li>
-										@else
+										@elseif(isset($action['target']))
 										<li><a data-toggle="modal" data-target="#myModal" href="{{ url($action['route']) }}">{{ $action['label'] }}</a></li>
+										@elseif(isset($action['action']))
+										<li><a href="#" onclick="{{ $action['action'] }}">{{ $action['label'] }}</a></li>
 										@endif
 									@endforeach
 								</ul>
@@ -81,8 +83,8 @@
 	</div> <!-- /.modal -->
 	<script>
 		$('#myModal').on('hidden.bs.modal', function () {
-		  location.reload();
-		})
+			location.reload();
+		});		
 	</script>
 
 	@yield('javascript')

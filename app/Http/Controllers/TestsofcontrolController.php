@@ -66,8 +66,8 @@ class TestsofcontrolController extends Controller {
 
 		//Menu actions
 		$actions = array(
-			array('label' => 'Edit', 'route' => 'assets/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'assets/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Edit', 'route' => 'testsofcontrol/'.$id.'/edit'),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'actions' => $actions]);
@@ -79,9 +79,28 @@ class TestsofcontrolController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Testofcontrol::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+				'controlactivities' => Controlactivity::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'), 
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$testofcontrol = Testofcontrol::findOrFail($id);
+		$this->validate($request, Testofcontrol::$validationRules);
+		$input = $request->all();
+    	$testofcontrol->fill($input)->save();
 	}
 
 	/**

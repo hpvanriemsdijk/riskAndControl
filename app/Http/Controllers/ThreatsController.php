@@ -148,7 +148,7 @@ class ThreatsController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'threats/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'threats/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -160,9 +160,27 @@ class ThreatsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Threat::find($id);
+
+		return view('generic.create', [
+			'data' => $data
+		]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$threat = Threat::findOrFail($id);
+		$this->validate($request, Threat::$validationRules);
+		$input = $request->all();
+    	$threat->fill($input)->save();
 	}
 
 	/**

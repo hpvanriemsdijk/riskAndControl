@@ -96,7 +96,9 @@
 		    return false;
 		});
 
-		function sort(sortByValue = null){
+		function sort(sortByValue){
+			var sortByValue = andClose || null;
+
 			if(!sortByValue){
 				sortByValue = $('.sort-action');
 			}else{

@@ -12,9 +12,10 @@
 		<div class="form-group">
             <label class="control-label" for="email">E-mail</label>
 			<input type="text" class="form-control box-sizing" name="email" placeholder="email" @if(isset($data))value="{{$data->email}}"@endif>
-		</div>
+		</div>		
 		<div class="form-group">
             <label class="control-label" for="password">Password</label>
+			<p><em><small>Leave empty to let the current password un-touched.</small></em></p>
 			<input type="password" class="form-control box-sizing" name="password">
 		</div>
 		<div class="form-group">

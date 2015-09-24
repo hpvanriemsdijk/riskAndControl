@@ -80,7 +80,7 @@ class UsersController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'users/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'users/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -92,9 +92,27 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = User::find($id);
+
+		return view('generic.create', [
+				'data' => $data
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$user = User::findOrFail($id);
+		$this->validate($request, User::$validationRules);
+		$input = $request->all();
+    	$user->fill($input)->save();
 	}
 
 	/**

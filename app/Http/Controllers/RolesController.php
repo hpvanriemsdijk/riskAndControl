@@ -180,7 +180,7 @@ class RolesController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'roles/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'roles/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -192,9 +192,28 @@ class RolesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Role::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+				'users' => User::orderBy('name', 'asc')->lists('name', 'id')
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$role = Role::findOrFail($id);
+		$this->validate($request, Role::$validationRules);
+		$input = $request->all();
+    	$role->fill($input)->save();
 	}
 
 	/**

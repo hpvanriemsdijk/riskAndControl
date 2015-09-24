@@ -108,7 +108,7 @@ class ControlactivitiesController extends Controller {
 		//Menu actions
 		$actions = array(
 			array('label' => 'Edit', 'route' => 'controlactivities/'.$id.'/edit'),
-			array('label' => 'Delete', 'route' => 'controlactivities/'.$id.'/destroy', 'target' => 'new' ),
+			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
 		);
 
 	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
@@ -120,9 +120,32 @@ class ControlactivitiesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function edit($id)
 	{
-		//
+		$data = Controlactivity::find($id);
+
+		return view('generic.create', [
+				'data' => $data,
+        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+        		'performFrequencies' => Controlactivity::$performFrequencies,
+        		'controlTypes' => Controlactivity::$controlTypes,
+        		'controlExecution' => Controlactivity::$controlExecution,
+        		'implementationStatus' => Controlactivity::$implementationStatus
+			]);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $request)
+	{
+		$controlactivity = Controlactivity::findOrFail($id);
+		$this->validate($request, Controlactivity::$validationRules);
+		$input = $request->all();
+    	$controlactivity->fill($input)->save();
 	}
 
 	/**
