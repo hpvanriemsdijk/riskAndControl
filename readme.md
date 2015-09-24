@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/hpvanriemsdijk/riskAndControl.svg?branch=master)](https://travis-ci.org/hpvanriemsdijk/riskAndControl)
 ## Risk and Control - Simplify your corporate governance 
 
 Risk and Control is an web application that was made to make the lives of compliance- and security officers as easy as possible. 
