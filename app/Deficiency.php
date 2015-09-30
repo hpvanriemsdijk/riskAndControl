@@ -11,7 +11,7 @@ class Deficiency extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description', 'rootcause'];
+	protected $fillable = ['name', 'description', 'rootcause', 'owner_id', 'controlassesment_id'];
 
 	/**
      * append additional fields to the model
@@ -19,9 +19,11 @@ class Deficiency extends Model {
     protected $appends = ['followup']; 
 
     public static $validationRules = [
-            'name' => 'required|string|max:255,deleted_at',
+            'name' => 'required|string|max:255',
+            'owner_id' => 'required|integer',
+            'controlassesment_id' => 'required|integer',
             'description' => 'required|string|max:10000',
-            'rootcause' => 'integer|string'
+            'rootcause' => 'string|max:10000'
         ];
 
 	/*

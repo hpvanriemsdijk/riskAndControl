@@ -34,8 +34,8 @@ class Controlobjective extends Model {
             'name' => 'required|string|max:255|unique:assets,deleted_at',
             'description' => 'required|string|max:10000',
             'active' => 'boolean',
-            'intref' => 'required|string|max:50',
-            'extref' => 'required|string|max:50'
+            'intref' => 'string|max:50',
+            'extref' => 'string|max:50'
         ];
 
 	/*
@@ -64,7 +64,7 @@ class Controlobjective extends Model {
     public function getEffectivityAttribute()
     {
         $controlactivities = $this->controlactivities()->where(['key_control' => 1])->where('active', 1)->get();
-        $lowest = array("identifier" => "3");
+        $lowest = array("identifier" => 10); //random High value
 
      	foreach ($controlactivities as $key => $controlactivity) {
     		if($controlactivity['effectivity']['identifier'] < $lowest['identifier']){
@@ -73,7 +73,7 @@ class Controlobjective extends Model {
     	}   
 
         //If lowest status is unknown, the effectivity label is ineffective
-        if($lowest["identifier"] == 0){
+        if($lowest["identifier"] == 10){
            $lowest["label"] = "Ineffective";
         } 
 

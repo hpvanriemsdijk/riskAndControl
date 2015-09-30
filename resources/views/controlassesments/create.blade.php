@@ -8,12 +8,16 @@
 
 		<div class="row">
 			<div class="col-md-5">
-				<label class="control-label" for="start">Start</label>
-				<input type="text" class="form-control box-sizing" name="start" id="start" @if(isset($data))value="{{$data->start}}"@endif>
+				<div class="form-group">
+					<label class="control-label" for="start">Start</label>
+					<input type="text" class="form-control box-sizing" name="start" id="start" @if(isset($data))value="{{$data->start}}"@endif>
+				</div>
 			</div>
 			<div class="col-md-5">
-				<label class="control-label" for="finish">Finish</label>
-				<input type="text" class="form-control box-sizing" name="finish" id="finish" @if(isset($data))value="{{$data->finish}}"@endif>
+				<div class="form-group">
+					<label class="control-label" for="finish">Finish</label>
+					<input type="text" class="form-control box-sizing" name="finish" id="finish" @if(isset($data))value="{{$data->finish}}"@endif>
+				</div>
 			</div>			
 		</div>
 
@@ -88,6 +92,6 @@
     	$("#auditor_id, #auditee_id, #approveer_id, #controlactivity_id").select2();
 
     	//Set datepicker
-    	$('#start, #finish').datepicker({format: "yyyy-dd-mm"});
+    	$('#start, #finish').datepicker({format: "yyyy-mm-dd", todayHighlight: true});
     });
 </script>

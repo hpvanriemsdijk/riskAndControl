@@ -1,8 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Request;
-
 use App\Controlobjective;
 
 class ControlobjectivesController extends Controller {

@@ -55,13 +55,15 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions<span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									@foreach($actions as $action)
-										@if(isset($action['target']) && $action['target'] == 'new')
-										<li><a href="{{ url($action['route']) }}">{{ $action['label'] }}</a></li>
-										@elseif(isset($action['target']))
-										<li><a data-toggle="modal" data-target="#myModal" href="{{ url($action['route']) }}">{{ $action['label'] }}</a></li>
+									@foreach($actions as $action)										
+										@if(isset($action['route']))
+											@if(isset($action['target']) && $action['target'] == 'new')
+												<li><a href="{{ url($action['route']) }}">{{ $action['label'] }}</a></li>
+											@else
+												<li><a data-toggle="modal" data-target="#myModal" href="{{ url($action['route']) }}">{{ $action['label'] }}</a></li>
+											@endif
 										@elseif(isset($action['action']))
-										<li><a href="#" onclick="{{ $action['action'] }}">{{ $action['label'] }}</a></li>
+											<li><a href="#" onclick="{{ $action['action'] }}">{{ $action['label'] }}</a></li>
 										@endif
 									@endforeach
 								</ul>
@@ -81,12 +83,6 @@
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->
 	</div> <!-- /.modal -->
-	<script>
-		$('#myModal').on('hidden.bs.modal', function () {
-			location.reload();
-		});		
-	</script>
-
 	@yield('javascript')
 </body>
 </html>

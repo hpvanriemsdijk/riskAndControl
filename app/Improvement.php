@@ -11,7 +11,7 @@ class Improvement extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description', 'status'];
+	protected $fillable = ['name', 'description', 'status', 'owner_id'];
 
     /**
      * Add ables to identfiers.
@@ -26,7 +26,8 @@ class Improvement extends Model {
     public static $validationRules = [
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:10000',
-            'status' => 'required|integer|between:0,2'
+            'status' => 'required|integer|between:0,2',
+            'owner_id' => 'required|integer',
         ];
 
 	/*

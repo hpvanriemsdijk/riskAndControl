@@ -13,7 +13,7 @@
 			<div class="col-md-5">
 				<div class="form-group">
 					<label class="control-label" for="intref">Internal refference</label>
-					<input type="text" class="form-control box-sizing" name="Intref" placeholder="intref" @if(isset($data))value="{{$data->intref}}"@endif>
+					<input type="text" class="form-control box-sizing" name="intref" placeholder="intref" @if(isset($data))value="{{$data->intref}}"@endif>
 				</div>
 			</div>
 			<div class="col-md-5">

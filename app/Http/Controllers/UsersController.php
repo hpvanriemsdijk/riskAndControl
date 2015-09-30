@@ -59,7 +59,7 @@ class UsersController extends Controller {
 	{
 		$this->validate($request, User::$validationRules);
 		$item = User::create($request->all());
-		return view('assets.listPanel', ['item' => $item]);
+		return view('users.listPanel', ['item' => $item]);
 	}
 
 	/**

@@ -1,10 +1,9 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Request;
-
 use App\Deficiency;
-use App\Controlassesments;
+use App\Controlassesment;
 use App\Role;
 
 class DeficienciesController extends Controller {
@@ -58,9 +57,15 @@ class DeficienciesController extends Controller {
      */
     public function create()
     {
+    	$controlassesments = Controlassesment::where('approved_date', '=', null)
+    								->where('completed_date', '=', null)
+    								->with('Controlactivity')
+    								->get();
+
         return view('generic.create', [
-        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
-			]);
+    		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+    		'controlassesments' => $controlassesments
+		]);
     }
 
 	/**
@@ -109,11 +114,16 @@ class DeficienciesController extends Controller {
 	public function edit($id)
 	{
 		$data = Deficiency::find($id);
+		$controlassesments = Controlassesment::where('approved_date', '=', null)
+    								->where('completed_date', '=', null)
+    								->with('Controlactivity')
+    								->get();
 
 		return view('generic.create', [
-				'data' => $data,
-	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
-			]);
+			'data' => $data,
+        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+        	'controlassesments' => $controlassesments
+		]);
 	}
 
 	/**

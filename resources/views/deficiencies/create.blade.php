@@ -25,6 +25,16 @@
 				@endforeach
 			</select>
 		</div>
+		<div class="form-group">
+			<label class="control-label" for="controlassesment_id">Controlassesment</label>
+			<select name="controlassesment_id" id="controlassesment_id" class="form-control">
+				@foreach($controlassesments as $controlassesment)
+				<option value='{{$controlassesment->id}}' @if(isset($data) && $data->controlassesment_id == $controlassesment->id) selected @endif>
+					{{$controlassesment->Controlactivity->name}} ({{$controlassesment->start}} to {{$controlassesment->finish}})
+				</option>
+				@endforeach
+			</select>
+		</div>
 	</form>
 </div>
 <div class="modal-footer">
@@ -36,6 +46,6 @@
     var data = {};
     $(document).ready(function() {
     	//Set select2
-    	$("#owner_id").select2();
+    	$("#owner_id, #controlassesment_id").select2();
     });
 </script>

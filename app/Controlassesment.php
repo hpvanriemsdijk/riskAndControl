@@ -11,7 +11,7 @@ class Controlassesment extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['start', 'finish', 'finding', 'conclusion'];
+	protected $fillable = ['start', 'finish', 'finding', 'conclusion', 'approveer_id', 'auditor_id', 'auditee_id', 'controlactivity_id'];
 
     /**
      * The attributes that are appended to the model.
@@ -25,8 +25,8 @@ class Controlassesment extends Model {
      */
     public static $validationRules = [
             'start' => 'required|date',
-            'finish' => 'date|after:start',
-            'finding' => 'required|string|max:10000',
+            'finish' => 'required|date|after:start',
+            'finding' => 'string|max:10000',
             'conclusion' => 'required|integer|between:0,3'
         ];
 

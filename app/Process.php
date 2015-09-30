@@ -11,7 +11,7 @@ class Process extends Node {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'ref', 'description'];
+	protected $fillable = ['name', 'ref', 'description', 'owner_id', 'maintainer_id'];
 
     /**
      * append additional fields to the model
@@ -24,7 +24,7 @@ class Process extends Node {
     public static $validationRules = [
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:10000',
-            'ref' => 'required|string|max:50'
+            'ref' => 'string|max:50'
         ];
 
 	/*

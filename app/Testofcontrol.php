@@ -11,14 +11,15 @@ class Testofcontrol extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'test'];
+	protected $fillable = ['name', 'test', 'controlactivity_id'];
 
 	/**
      * Validationrules
      */
     public static $validationRules = [
             'name' => 'required|string|max:255',
-            'test' => 'required|string|max:10000'
+            'test' => 'required|string|max:10000',
+            'controlactivity_id' => 'string'
         ];
 
 	/*

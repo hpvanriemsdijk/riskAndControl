@@ -11,10 +11,11 @@
         $('.submitBtn').on('click', function() {
             resetErrors();
             @if (isset($data))
-                var url = '/{{Request::segment(count(Request::segments())-1)}}/' + {{$data->id}};
+                var url = '/{{explode(".", Route::current()->getName())[0]}}/' + {{$data->id}};
+                //var url = {{$data->id}};
                 var method = 'PUT';
             @else
-                var url = '{{Request::segment(count(Request::segments())-1)}}';
+                var url = '{{explode(".", Route::current()->getName())[0]}}';
                 var method = 'POST';
             @endif
             
@@ -35,10 +36,19 @@
 
                     //Clear form on add
                     @if (!isset($data))$('form').clearForm();@endif
-
-                    //Add to list
-                    var $newItems = $('<div class="list-item">' + resp + '</div>');        
-                    $('#list').prepend($newItems).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
+                  
+                    //Set post actions  
+                    @if (isset($data))
+                        //On edit, set reload page afer closing model
+                        $('#myModal').on('hidden.bs.modal', function () {
+                            location.reload();
+                        });                        
+                    @else
+                        //On add, add an new item to the list
+                        var $newItems = $('<div class="list-item">' + resp + '</div>');        
+                        $('#list').prepend($newItems).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });                         
+                    @endif
+                        
 
                     return false;
                 },
@@ -67,9 +77,7 @@
 
     jQuery.fn.clearForm = function(){
         //jQuery.fn.clearForm = function()
-
         var $form = $(this);
-
         $form.find('input:text, input:password, input:file, textarea').val('');
         $form.find('select option:selected').removeAttr('selected');
         $form.find('input:checkbox, input:radio').removeAttr('checked');

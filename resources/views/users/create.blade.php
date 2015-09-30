@@ -20,7 +20,7 @@
 		</div>
 		<div class="form-group">
             <label class="control-label" for="password_confirmation">Validate password</label>
-			<input type="password" class="form-control box-sizing" name="password">
+			<input type="password" class="form-control box-sizing" name="password_confirmation">
 		</div>		
 	</form>
 </div>

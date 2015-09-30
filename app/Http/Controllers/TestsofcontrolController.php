@@ -51,7 +51,7 @@ class TestsofcontrolController extends Controller {
 	{
 		$this->validate($request, Testofcontrol::$validationRules);
 		$item = Testofcontrol::create($request->all());
-		return view('testofcontrols.listPanel', ['item' => $item]);
+		return view('testsofcontrol.listPanel', ['item' => $item]);
 	}
 
 	/**

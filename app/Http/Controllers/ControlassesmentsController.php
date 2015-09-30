@@ -76,9 +76,9 @@ class ControlassesmentsController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$this->validate($request, Asset::$validationRules);
-		$item = Asset::create($request->all());
-		return view('assets.listPanel', ['item' => $item]);
+		$this->validate($request, Controlassesment::$validationRules);
+		$item = Controlassesment::create($request->all());
+		return view('controlassesments.listPanel', ['item' => $item]);
 	}
 
 	/**

@@ -14,8 +14,8 @@
 			<textarea class="form-control" name="description" rows="3">@if(isset($data)){{$data->description}}@endif</textarea>
 		</div>
 		<div class="form-group">
-			<label class="control-label" for="type">Type</label>
-			<select name="type" class="form-control">
+			<label class="control-label" for="dimention">Dimention</label>
+			<select name="dimention" class="form-control">
 				@foreach($controlDimentions as $key => $dimention)
 				<option value='{{$key}}' @if(isset($data) && $data->dimention == $key) selected @endif>{{$dimention}}</option>
 				@endforeach

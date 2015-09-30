@@ -11,16 +11,16 @@ class Role extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description', 'active'];
+	protected $fillable = ['name', 'description', 'active', 'user_id'];
 
     /**
      * Validationrules
      */
     public static $validationRules = [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:10000',
-            'active' => 'boolean'
-        ];
+        'name' => 'required|string|max:255',
+        'description' => 'required|string|max:10000',
+        'active' => 'boolean'
+    ];
 
 	/*
 	 * define relations

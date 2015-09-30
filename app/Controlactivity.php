@@ -48,7 +48,7 @@ class Controlactivity extends Model {
      * Validationrules
      */
     public static $validationRules = [
-            'name' => 'required|max:255|unique:controlactivity,deleted_at',
+            'name' => 'required|max:255|unique:controlactivities,deleted_at',
             'description' => 'required|string|max:10000',
             'active' => 'boolean',
             'key_control' => 'boolean',
@@ -56,8 +56,8 @@ class Controlactivity extends Model {
             'perform_frequency' => 'required|integer|between:0,7',
             'test_frequency' => 'required|integer|between:0,7',
             'justification' => 'string|max:10000',
-            'intref' => 'max:50|unique:controlactivity,deleted_at',
-            'extref' => 'max:50|unique:controlactivity,deleted_at',
+            'intref' => 'max:50|unique:controlactivities,deleted_at',
+            'extref' => 'max:50|unique:controlactivities,deleted_at',
             'control_type' => 'required|integer|between:0,2',
             'control_execution' => 'required|integer|between:0,1',
             'control_activitiescol' => 'integer|between:0,1',

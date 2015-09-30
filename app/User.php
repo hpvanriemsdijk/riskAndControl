@@ -21,8 +21,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Validationrules
      */
     public static $validationRules = [
-        'name' => 'required|string|max:255',
-        'email' => 'required|email',
+        'name' => 'required|string|max:255||unique:users',
+        'email' => 'required|email||unique:users',
         'password' => 'required|string|min:8|confirmed',
     ];
 

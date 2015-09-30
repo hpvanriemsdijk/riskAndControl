@@ -104,6 +104,7 @@
 	@include(Request::segments()[0] . '.itemDetail')	
 </div>
 
+
 @if(isset($childModels) && count($childModels))
 <div class="row">
 	<!-- Nav tabs -->
