@@ -12,26 +12,26 @@
 		//Select tab
 		$('[data-toggle="tabajax"]').click(function(e) {
 		    var $this = $(this),
-		        loadurl = $this.attr('href'),
-		        targ = $this.attr('data-target');
+	        loadurl = $this.attr('href'),
+	        targ = $this.attr('data-target');
 
 			$this.tab('show');
 
-		    $(targ).fadeOut( "slow", function() {
-				$('.loader').show();
-			});		    
+		    $(targ).hide(function() {
+				$('.loader').fadeIn("Slow");
 
-		    $.get(loadurl, function(data) {
-		    	$(targ).html(data);
+				 $.get(loadurl, function(data) {
+			    	$(targ).html(data);
 
-				$('.loader').fadeOut( "fast", function() {
-					$(targ).fadeIn( "slow" );
+					$('.loader').fadeOut("Slow", function() {
+						$(targ).show();
 
-					$('#list').isotope({
-						itemSelector: '.list-item'
-			    	});
-				});	
-		    });
+						$('#list').isotope({
+							itemSelector: '.list-item'
+				    	});
+					});	
+			    });
+			});	  
 		    
 		    return false;
 		});
@@ -126,15 +126,17 @@
 
 	<!-- Tab panes -->
 	<div class="tab-content">
-		<div class="tab-pane active" id="tab-content">...</div>
+		<!-- messages -->
+		<div class="loader">
+			<div class="alert alert-info" role="alert">
+				<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
+			</div>
+		</div>
+
+		<div class="tab-pane active" id="tab-content"></div>
 	</div>
 
-	<!-- messages -->
-	<div class="loader">
-		<div class="alert alert-info" role="alert">
-			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
-		</div>
-	</div>
+	
 </div>
 @endif
 @endsection
