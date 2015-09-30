@@ -13,5 +13,7 @@
 @endsection
 
 @section('content')
+<div class="row">
     @include('generic.list')
+</div>
 @endsection
