@@ -1,51 +1,55 @@
 <div class="row margin-bottom-md">
 	<div class="container">
-		<div class="row row-no-padding">
-			<div class="filterbar">
+		<div class="row-fluid">
+			<div class="col-md-4 pull-right">
 				<div class="input-group">
 					<div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
 					<input type="text" class="form-control" id="quicksearch" placeholder="Search" />
-				</div>      
-			</div> 
+				</div>   
+			</div>   
 
 			@if(isset($filter))
 				@if(isset($filter['sortFields']))
-					<div class="input-group filterbar">
-						<span class="input-group-btn">
-				        	<button class="btn btn-default sortOrder" type="button"><i class="glyphicon glyphicon-sort-by-attributes"></i></button>
-				      	</span>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default dropdown-toggle" id="sort-action-btn" data-toggle="dropdown">
-								{{ $filter['sortFields'][0]['label'] }} <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								@foreach($filter['sortFields'] as $sortField)
-								<li><a href="#" class='sort-action' data-sort-by="{{$sortField['value']}}">{{$sortField['label']}}</a></li>
-								@endforeach
-							</ul>
+					<div class="col-md-2 pull-right">
+						<div class="input-group">
+							<span class="input-group-btn">
+					        	<button class="btn btn-default sortOrder" type="button"><i class="glyphicon glyphicon-sort-by-attributes"></i></button>
+					      	</span>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default dropdown-toggle" id="sort-action-btn" data-toggle="dropdown">
+									{{ $filter['sortFields'][0]['label'] }} <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									@foreach($filter['sortFields'] as $sortField)
+									<li><a href="#" class='sort-action' data-sort-by="{{$sortField['value']}}">{{$sortField['label']}}</a></li>
+									@endforeach
+								</ul>
+							</div>
 						</div>
 					</div>
 				@endif
 
 				@if(isset($filter['filterGroups']))
 					@foreach($filter['filterGroups'] as $filterGroup)
-						<div class="input-group filterbar" data-filter-group="{{$filterGroup['id']}}" style="float: right; display: block;">
-							<div class="input-group-addon">
-								{{$filterGroup['label']}}
-							</div>
-					      	<div class="input-group-btn">
-					      		<button type="button" 
-									class="btn btn-default filterAction active" 
-									data-filter=""
-									filter-group="{{$filterGroup['id']}}">All</button>
-								@foreach($filterGroup['items'] as $filterItem)
-								<button type="button" 
-									class="btn btn-default filterAction" 
-									data-filter="{{$filterItem['value']}}"
-									filter-group="{{$filterGroup['id']}}">{{$filterItem['label']}}</button>
-								@endforeach
-							</div>
-			      		</div>
+						<div class="col-md-3 pull-right">
+							<div class="input-group" data-filter-group="{{$filterGroup['id']}}" style="float: right; display: block;">
+								<div class="input-group-addon">
+									{{$filterGroup['label']}}
+								</div>
+						      	<div class="input-group-btn">
+						      		<button type="button" 
+										class="btn btn-default filterAction active" 
+										data-filter=""
+										filter-group="{{$filterGroup['id']}}">All</button>
+									@foreach($filterGroup['items'] as $filterItem)
+									<button type="button" 
+										class="btn btn-default filterAction" 
+										data-filter="{{$filterItem['value']}}"
+										filter-group="{{$filterGroup['id']}}">{{$filterItem['label']}}</button>
+									@endforeach
+								</div>
+				      		</div>
+				      	</div>
 					@endforeach
 				@endif
 			@endif
