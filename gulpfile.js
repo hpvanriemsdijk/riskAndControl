@@ -33,5 +33,6 @@ elixir(function(mix) {
 	    '../bower/select2/select2.js',
         '../bower/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
 	], 'public/js/vendor.js');
-
+    mix.copy('resources/assets/bower/select2/*.gif', 'public/css/');
+    mix.copy('resources/assets/bower/select2/*.png', 'public/css/');
 });
