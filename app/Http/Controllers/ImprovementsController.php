@@ -1,44 +1,46 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
+
 use App\Improvement;
 use App\Role;
+use Illuminate\Http\Request;
 
-class ImprovementsController extends Controller {
+class ImprovementsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $data = Improvement::all();
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$data = Improvement::all();
-		
-		//Filter settings
-		$filter = array();
-	
-		//Menu actions
-		$actions = array(
-			array('label' => 'add', 'route' => 'improvements/create', 'target' => '')
-		);
+        //Filter settings
+        $filter = [];
 
-		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
-	}
+        //Menu actions
+        $actions = [
+            ['label' => 'add', 'route' => 'improvements/create', 'target' => ''],
+        ];
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function indexDeficiencies($id)
-	{
-		$data = Improvement::find($id)->Deficiencies;
-		return view('generic.list', ['data' => $data]);
-	}
+        return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
+    }
 
-	/**
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function indexDeficiencies($id)
+    {
+        $data = Improvement::find($id)->Deficiencies;
+
+        return view('generic.list', ['data' => $data]);
+    }
+
+    /**
      * Show the form for creating a new controlframework.
      *
      * @return Response
@@ -46,88 +48,92 @@ class ImprovementsController extends Controller {
     public function create()
     {
         return view('generic.create', [
-        		'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
-        		'improvementStatus' => Improvement::$improvementStatus
-			]);
+                'roles'             => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+                'improvementStatus' => Improvement::$improvementStatus,
+            ]);
     }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-		$this->validate($request, Improvement::$validationRules);
-		$item = Improvement::create($request->all());
-		return view('improvements.listPanel', ['item' => $item]);
-	}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, Improvement::$validationRules);
+        $item = Improvement::create($request->all());
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//return Improvement::find($id);
-		$data = Improvement::with(['owner'])->find($id);
+        return view('improvements.listPanel', ['item' => $item]);
+    }
 
-		//Child models, used for tabs
-		$childModels = array(
-			array("label" => "Deficiencies", "model" => "deficiencies")
-		);
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        //return Improvement::find($id);
+        $data = Improvement::with(['owner'])->find($id);
 
-		//Menu actions
-		$actions = array(
-			array('label' => 'Edit', 'route' => 'improvements/'.$id.'/edit'),
-			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
-		);
+        //Child models, used for tabs
+        $childModels = [
+            ['label' => 'Deficiencies', 'model' => 'deficiencies'],
+        ];
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
-	}
+        //Menu actions
+        $actions = [
+            ['label' => 'Edit', 'route' => 'improvements/'.$id.'/edit'],
+            ['label' => 'Delete', 'action' => 'deleteItem('.$id.')'],
+        ];
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$data = Improvement::find($id);
+        return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
+    }
 
-		return view('generic.create', [
-				'data' => $data,
-	        	'roles' => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
-        		'improvementStatus' => Improvement::$improvementStatus
-			]);
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $data = Improvement::find($id);
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
-		$improvement = Improvement::findOrFail($id);
-		$this->validate($request, Improvement::$validationRules);
-		$input = $request->all();
-    	$improvement->fill($input)->save();
-	}
+        return view('generic.create', [
+                'data'              => $data,
+                'roles'             => Role::where('active', '=', 1)->orderBy('name', 'asc')->lists('name', 'id'),
+                'improvementStatus' => Improvement::$improvementStatus,
+            ]);
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		Improvement::destroy($id);
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+        $improvement = Improvement::findOrFail($id);
+        $this->validate($request, Improvement::$validationRules);
+        $input = $request->all();
+        $improvement->fill($input)->save();
+    }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        Improvement::destroy($id);
+    }
 }

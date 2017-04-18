@@ -1,17 +1,20 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Improvement extends Model {
-	use SoftDeletes;
+class Improvement extends Model
+{
+    use SoftDeletes;
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'description', 'status', 'owner_id'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'description', 'status', 'owner_id'];
 
     /**
      * Add ables to identfiers.
@@ -21,19 +24,19 @@ class Improvement extends Model {
     public static $improvementStatus = [0 => 'To do', 1 => 'In progress', 2 => 'Done'];
 
     /**
-     * Validationrules
+     * Validationrules.
      */
     public static $validationRules = [
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'required|string|max:10000',
-            'status' => 'required|integer|between:0,2',
-            'owner_id' => 'required|integer',
+            'status'      => 'required|integer|between:0,2',
+            'owner_id'    => 'required|integer',
         ];
 
-	/*
-	 * define relations
-	 */
-	public function deficiencies()
+    /*
+     * define relations
+     */
+    public function deficiencies()
     {
         return $this->belongsToMany('App\Deficiency');
     }
@@ -44,18 +47,18 @@ class Improvement extends Model {
     }
 
     /*
-     * Add label to the status, 
+     * Add label to the status,
      *
      */
     public function getStatusAttribute()
     {
         $status = $this->attributes['status'];
 
-        $statusus = Improvement::$improvementStatus;
-        $statusLabel = array(
+        $statusus = self::$improvementStatus;
+        $statusLabel = [
             'identifier' => $status,
-            'label' => $label = isset($statusus[$status]) ? $statusus[$status] : false,
-            );
+            'label'      => $label = isset($statusus[$status]) ? $statusus[$status] : false,
+            ];
 
         return $statusLabel;
     }
@@ -65,15 +68,16 @@ class Improvement extends Model {
      *
      * getAssetTypeLabel; Translate Asset type identifier to label.
      */
-    public static function getStatusClass($effectivityId){
-        if($effectivityId['identifier'] == 0){
-            return "panel-danger";
-        }else if($effectivityId['identifier'] == 1){
-            return "panel-warning";
-        }else if($effectivityId['identifier'] == 2){
-            return "panel-success";
-        }else{
-            return "panel-default";
+    public static function getStatusClass($effectivityId)
+    {
+        if ($effectivityId['identifier'] == 0) {
+            return 'panel-danger';
+        } elseif ($effectivityId['identifier'] == 1) {
+            return 'panel-warning';
+        } elseif ($effectivityId['identifier'] == 2) {
+            return 'panel-success';
+        } else {
+            return 'panel-default';
         }
     }
 }

@@ -1,137 +1,143 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
 
 use App\Role;
 use App\User;
+use Illuminate\Http\Request;
 
-class RolesController extends Controller {
+class RolesController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $data = Role::all();
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$data = Role::all();
-				
-		//Filter settings
-		$filter = array();
-	
-		//Menu actions
-		$actions = array(
-			array('label' => 'add', 'route' => 'roles/create', 'target' => '')
-		);
+        //Filter settings
+        $filter = [];
 
-		return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
-	}
+        //Menu actions
+        $actions = [
+            ['label' => 'add', 'route' => 'roles/create', 'target' => ''],
+        ];
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexOwnControlframeworks($id)
-	{
-		$data = Role::find($id)->ownControlframeworks;
-		return view('generic.list', ['data' => $data, 'view' => 'controlframeworks']);
-	}	
+        return view('generic.index', ['data' => $data, 'filter' => $filter, 'actions' => $actions]);
+    }
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexOwnControlactivities($id)
-	{
-		$data = Role::find($id)->ownControlactivities;
-		return view('generic.list', ['data' => $data, 'view' => 'controlactivities']);
-	}	
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexOwnControlframeworks($id)
+    {
+        $data = Role::find($id)->ownControlframeworks;
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexOwnDeficiencies($id)
-	{
-		$data = Role::find($id)->ownDeficiencies;
-		return view('generic.list', ['data' => $data, 'view' => 'deficiencies']);
-	}	
+        return view('generic.list', ['data' => $data, 'view' => 'controlframeworks']);
+    }
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexOwnImprovements($id)
-	{
-		$data = Role::find($id)->ownImprovements;
-		return view('generic.list', ['data' => $data, 'view' => 'improvements']);
-	}	
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexOwnControlactivities($id)
+    {
+        $data = Role::find($id)->ownControlactivities;
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexOwnAssets($id)
-	{
-		$data = Role::find($id)->ownAssets;
-		return view('generic.list', ['data' => $data, 'view' => 'assets']);
-	}	
+        return view('generic.list', ['data' => $data, 'view' => 'controlactivities']);
+    }
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexMaintainAssets($id)
-	{
-		$data = Role::find($id)->maintainAssets;
-		return view('generic.list', ['data' => $data, 'view' => 'assets']);
-	}	
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexOwnDeficiencies($id)
+    {
+        $data = Role::find($id)->ownDeficiencies;
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexOwnProccess($id)
-	{
-		$data = Role::find($id)->ownProccess;
-		return view('generic.list', ['data' => $data, 'view' => 'processes']);
-	}	
+        return view('generic.list', ['data' => $data, 'view' => 'deficiencies']);
+    }
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexMaintainProcess($id)
-	{
-		$data = Role::find($id)->maintainProcess;
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexOwnImprovements($id)
+    {
+        $data = Role::find($id)->ownImprovements;
 
-		//Set view to overrule automagic view selection
-		return view('generic.list', ['data' => $data, 'view' => 'processes']);
-	}	
+        return view('generic.list', ['data' => $data, 'view' => 'improvements']);
+    }
 
-	/**
-	 * Display a listing of the child controlobjectives.
-	 *
-	 * @return Response
-	 */
-	public function indexUsers($id)
-	{
-		$data = Role::find($id)->user;
-		return view('generic.list', ['data' => $data, 'view' => 'users']);
-	}	
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexOwnAssets($id)
+    {
+        $data = Role::find($id)->ownAssets;
 
-	/**
+        return view('generic.list', ['data' => $data, 'view' => 'assets']);
+    }
+
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexMaintainAssets($id)
+    {
+        $data = Role::find($id)->maintainAssets;
+
+        return view('generic.list', ['data' => $data, 'view' => 'assets']);
+    }
+
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexOwnProccess($id)
+    {
+        $data = Role::find($id)->ownProccess;
+
+        return view('generic.list', ['data' => $data, 'view' => 'processes']);
+    }
+
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexMaintainProcess($id)
+    {
+        $data = Role::find($id)->maintainProcess;
+
+        //Set view to overrule automagic view selection
+        return view('generic.list', ['data' => $data, 'view' => 'processes']);
+    }
+
+    /**
+     * Display a listing of the child controlobjectives.
+     *
+     * @return Response
+     */
+    public function indexUsers($id)
+    {
+        $data = Role::find($id)->user;
+
+        return view('generic.list', ['data' => $data, 'view' => 'users']);
+    }
+
+    /**
      * Show the form for creating a new controlframework.
      *
      * @return Response
@@ -139,92 +145,96 @@ class RolesController extends Controller {
     public function create()
     {
         return view('generic.create', [
-        		'users' => User::orderBy('name', 'asc')->lists('name', 'id')
-			]);
+                'users' => User::orderBy('name', 'asc')->lists('name', 'id'),
+            ]);
     }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-		$this->validate($request, Role::$validationRules);
-		$item = Role::create($request->all());
-		return view('roles.listPanel', ['item' => $item]);
-	}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, Role::$validationRules);
+        $item = Role::create($request->all());
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$data = Role::find($id);
+        return view('roles.listPanel', ['item' => $item]);
+    }
 
-		//Child models, used for tabs
-		$childModels = array(
-			array("label" => "Own Frameworks", "model" => "owncontrolframeworks"),
-			array("label" => "Own Activities", "model" => "owncontrolactivities"),
-			array("label" => "Own Deficiencies", "model" => "owndeficiencies"),
-			array("label" => "Own Improvements", "model" => "ownimprovements"),
-			array("label" => "Own Assets", "model" => "ownassets"),
-			array("label" => "Maintain Assets", "model" => "maintainassets"),
-			array("label" => "Own Proccess", "model" => "ownproccess"),
-			array("label" => "Maintain Process", "model" => "maintainprocess"),
-		);
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $data = Role::find($id);
 
-		//Menu actions
-		$actions = array(
-			array('label' => 'Edit', 'route' => 'roles/'.$id.'/edit'),
-			array('label' => 'Delete', 'action' => 'deleteItem('.$id.')'),
-		);
+        //Child models, used for tabs
+        $childModels = [
+            ['label' => 'Own Frameworks', 'model' => 'owncontrolframeworks'],
+            ['label' => 'Own Activities', 'model' => 'owncontrolactivities'],
+            ['label' => 'Own Deficiencies', 'model' => 'owndeficiencies'],
+            ['label' => 'Own Improvements', 'model' => 'ownimprovements'],
+            ['label' => 'Own Assets', 'model' => 'ownassets'],
+            ['label' => 'Maintain Assets', 'model' => 'maintainassets'],
+            ['label' => 'Own Proccess', 'model' => 'ownproccess'],
+            ['label' => 'Maintain Process', 'model' => 'maintainprocess'],
+        ];
 
-	    return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
-	}
+        //Menu actions
+        $actions = [
+            ['label' => 'Edit', 'route' => 'roles/'.$id.'/edit'],
+            ['label' => 'Delete', 'action' => 'deleteItem('.$id.')'],
+        ];
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$data = Role::find($id);
+        return view('generic.item', ['data' => $data, 'childModels' => $childModels, 'actions' => $actions]);
+    }
 
-		return view('generic.create', [
-				'data' => $data,
-				'users' => User::orderBy('name', 'asc')->lists('name', 'id')
-			]);
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $data = Role::find($id);
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
-		$role = Role::findOrFail($id);
-		$this->validate($request, Role::$validationRules);
-		$input = $request->all();
-    	$role->fill($input)->save();
-	}
+        return view('generic.create', [
+                'data'  => $data,
+                'users' => User::orderBy('name', 'asc')->lists('name', 'id'),
+            ]);
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		Role::destroy($id);
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+        $role = Role::findOrFail($id);
+        $this->validate($request, Role::$validationRules);
+        $input = $request->all();
+        $role->fill($input)->save();
+    }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        Role::destroy($id);
+    }
 }

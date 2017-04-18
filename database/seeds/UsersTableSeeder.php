@@ -1,18 +1,17 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;     
 
-class UsersTableSeeder extends Seeder {
-
+class UsersTableSeeder extends Seeder
+{
     public function run()
     {
-    	DB::table('users')->delete();
+        DB::table('users')->delete();
 
         $user = factory(App\User::class)->create([
-            'name' => 'Admin',
-            'email' => 'admin@test.nl',
-            'password' => Hash::make('Password')
+            'name'     => 'Admin',
+            'email'    => 'admin@test.nl',
+            'password' => Hash::make('Password'),
         ]);
 
         $users = factory('App\User', 10)
