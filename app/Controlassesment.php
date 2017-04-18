@@ -1,33 +1,36 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Controlassesment extends Model {
-	use SoftDeletes;
+class Controlassesment extends Model
+{
+    use SoftDeletes;
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['start', 'finish', 'finding', 'conclusion', 'approveer_id', 'auditor_id', 'auditee_id', 'controlactivity_id'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['start', 'finish', 'finding', 'conclusion', 'approveer_id', 'auditor_id', 'auditee_id', 'controlactivity_id'];
 
     /**
      * The attributes that are appended to the model.
      *
      * @var array
      */
-    protected $appends = array('warnings');
+    protected $appends = ['warnings'];
 
     /**
-     * Validationrules
+     * Validationrules.
      */
     public static $validationRules = [
-            'start' => 'required|date',
-            'finish' => 'required|date|after:start',
-            'finding' => 'string|max:10000',
-            'conclusion' => 'required|integer|between:0,3'
+            'start'      => 'required|date',
+            'finish'     => 'required|date|after:start',
+            'finding'    => 'string|max:10000',
+            'conclusion' => 'required|integer|between:0,3',
         ];
 
     /**
@@ -36,16 +39,15 @@ class Controlassesment extends Model {
      * @var array
      */
     public static $conclusionTypes = [
-                    0 => 'Unknown', 
-                    1 => 'Not effective', 
-                    2 => 'Partly effective', 
-                    3 => 'Effective'];
+                    0 => 'Unknown',
+                    1 => 'Not effective',
+                    2 => 'Partly effective',
+                    3 => 'Effective', ];
 
-
-	/*
-	 * define relations
-	 */
-	public function controlactivities()
+    /*
+     * define relations
+     */
+    public function controlactivities()
     {
         return $this->belongsToMany('App\Controlactivity');
     }
@@ -83,7 +85,7 @@ class Controlassesment extends Model {
     }
 
     /*
-     * Add label to the conclusion, 
+     * Add label to the conclusion,
      * Set conclusion to ineffective if an assesment ia approved, but the conclusion in "Unknown"
      *
      */
@@ -93,16 +95,16 @@ class Controlassesment extends Model {
         $conclusion = $this->attributes['conclusion'];
 
         //Set conclusion to ineffective if an assesment ia approved, but the conclusion in "Unknown"
-        if(isset($this->finish) && $conclusion == 0){
+        if (isset($this->finish) && $conclusion == 0) {
             $conclusion = 1;
             $fixed = true;
         }
 
-        $conclusionLabel = array(
+        $conclusionLabel = [
             'identifier' => $conclusion,
-            'label' => $label = isset(Controlassesment::$conclusionTypes[$conclusion]) ? Controlassesment::$conclusionTypes[$conclusion] : false,
-            'fixed' => $fixed
-            );
+            'label'      => $label = isset(self::$conclusionTypes[$conclusion]) ? self::$conclusionTypes[$conclusion] : false,
+            'fixed'      => $fixed,
+            ];
 
         return $conclusionLabel;
     }
@@ -112,16 +114,16 @@ class Controlassesment extends Model {
      */
     public function getWarningsAttribute()
     {
-        $warnings = array();
+        $warnings = [];
 
-        if($this->conclusion['fixed']){
-            $warnings[] = array(
-                'label' => "The conclusion of this approved assesment was set to 'Unknown', this is not allowed. Relax, the conclusion is automaticly set to 'Not effective'.",
-                'severity' => 'danger'
-            );
+        if ($this->conclusion['fixed']) {
+            $warnings[] = [
+                'label'    => "The conclusion of this approved assesment was set to 'Unknown', this is not allowed. Relax, the conclusion is automaticly set to 'Not effective'.",
+                'severity' => 'danger',
+            ];
         }
 
-        return $warnings; 
+        return $warnings;
     }
 
     /*
@@ -129,17 +131,18 @@ class Controlassesment extends Model {
      *
      * getAssetTypeLabel; Translate Asset type identifier to label.
      */
-    public static function getConclusionClass($effectivityId){
-        if($effectivityId['identifier'] == 0){
-            return "panel-default";
-        }else if($effectivityId['identifier'] == 1){
-            return "panel-danger";
-        }else if($effectivityId['identifier'] == 2){
-            return "panel-warning";
-        }else if($effectivityId['identifier'] == 3){
-            return "panel-success";
-        }else{
-            return "panel-default";
+    public static function getConclusionClass($effectivityId)
+    {
+        if ($effectivityId['identifier'] == 0) {
+            return 'panel-default';
+        } elseif ($effectivityId['identifier'] == 1) {
+            return 'panel-danger';
+        } elseif ($effectivityId['identifier'] == 2) {
+            return 'panel-warning';
+        } elseif ($effectivityId['identifier'] == 3) {
+            return 'panel-success';
+        } else {
+            return 'panel-default';
         }
     }
 }

@@ -1,37 +1,40 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Controlframework extends Model {
-	use SoftDeletes;
+class Controlframework extends Model
+{
+    use SoftDeletes;
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'description', 'active', 'owner_id'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'description', 'active', 'owner_id'];
 
-	/**
-     * append additional fields to the model
+    /**
+     * append additional fields to the model.
      */
     protected $appends = ['objectives_met', 'objectives_partly_met', 'objectives_not_met'];
 
     /**
-     * Validationrules
+     * Validationrules.
      */
     public static $validationRules = [
-            'name' => 'required|max:255|unique:controlframeworks,deleted_at',
+            'name'        => 'required|max:255|unique:controlframeworks,deleted_at',
             'description' => 'required|string|max:255',
-            'active' => 'boolean',
-            'owner_id' => 'required|integer'
+            'active'      => 'boolean',
+            'owner_id'    => 'required|integer',
         ];
 
-	/*
-	 * define relations
-	 */
-	public function controlobjectives()
+    /*
+     * define relations
+     */
+    public function controlobjectives()
     {
         return $this->belongsToMany('App\Controlobjective');
     }
@@ -42,13 +45,13 @@ class Controlframework extends Model {
     }
 
     /**
-     * Define Accessors & Mutators
+     * Define Accessors & Mutators.
      *
      * getObjectivesMetAttribute; Count how many objectives are met
      */
     public function getObjectivesMetAttribute()
     {
-       	return $this->getObjectiveResultCount()['met'];
+        return $this->getObjectiveResultCount()['met'];
     }
 
     /*
@@ -72,20 +75,21 @@ class Controlframework extends Model {
      *
      * getTestFrequencyInDays; Translate test Frequency identifier to days.
      */
-    private function getObjectiveResultCount(){
-    	$objectiveResult = array('notMet' => 0, 'partlyMet' => 0, 'met' =>0);
-    	$controlobjectives = $this->controlobjectives()->where(['active' => 1])->get();
+    private function getObjectiveResultCount()
+    {
+        $objectiveResult = ['notMet' => 0, 'partlyMet' => 0, 'met' =>0];
+        $controlobjectives = $this->controlobjectives()->where(['active' => 1])->get();
 
-    	foreach ($controlobjectives as $key => $controlobjective) {
-    		if($controlobjective['effectivity']['identifier'] <= 1){
-    			$objectiveResult['notMet']++;
-    		}else if($controlactivity['effectivity']['identifier'] == 2){
-    			$objectiveResult['PartlyMet']++;
-    		}else if($controlactivity['effectivity']['identifier'] == 3){
-    			$objectiveResult['Met']++;
-    		}
-    	}
+        foreach ($controlobjectives as $key => $controlobjective) {
+            if ($controlobjective['effectivity']['identifier'] <= 1) {
+                $objectiveResult['notMet']++;
+            } elseif ($controlactivity['effectivity']['identifier'] == 2) {
+                $objectiveResult['PartlyMet']++;
+            } elseif ($controlactivity['effectivity']['identifier'] == 3) {
+                $objectiveResult['Met']++;
+            }
+        }
 
-    	return $objectiveResult;
+        return $objectiveResult;
     }
 }

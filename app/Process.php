@@ -1,36 +1,39 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Baum\Node;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Process extends Node {
-	use SoftDeletes;
-
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'ref', 'description', 'owner_id', 'maintainer_id'];
+class Process extends Node
+{
+    use SoftDeletes;
 
     /**
-     * append additional fields to the model
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'ref', 'description', 'owner_id', 'maintainer_id'];
+
+    /**
+     * append additional fields to the model.
      */
     protected $appends = ['in_control'];
 
     /**
-     * Validationrules
+     * Validationrules.
      */
     public static $validationRules = [
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'required|string|max:10000',
-            'ref' => 'string|max:50'
+            'ref'         => 'string|max:50',
         ];
 
-	/*
-	 * define relations
-	 */
-	public function assets()
+    /*
+     * define relations
+     */
+    public function assets()
     {
         return $this->belongsToMany('App\Asset');
     }
@@ -51,7 +54,7 @@ class Process extends Node {
     }
 
     /**
-     * Define Accessors & Mutators
+     * Define Accessors & Mutators.
      *
      * getInControlAttribute; Calculate if the coltrolactivities for the proces threats are effective
      */

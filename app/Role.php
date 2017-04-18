@@ -1,31 +1,34 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model {
-	use SoftDeletes;
-
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'description', 'active', 'user_id'];
+class Role extends Model
+{
+    use SoftDeletes;
 
     /**
-     * Validationrules
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'description', 'active', 'user_id'];
+
+    /**
+     * Validationrules.
      */
     public static $validationRules = [
-        'name' => 'required|string|max:255',
+        'name'        => 'required|string|max:255',
         'description' => 'required|string|max:10000',
-        'active' => 'boolean'
+        'active'      => 'boolean',
     ];
 
-	/*
-	 * define relations
-	 */
-	public function user()
+    /*
+     * define relations
+     */
+    public function user()
     {
         return $this->belongsTo('App\User');
     }
@@ -69,6 +72,4 @@ class Role extends Model {
     {
         return $this->hasMany('App\Process', 'maintainer_id');
     }
-
-    
 }
